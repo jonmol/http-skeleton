@@ -1,0 +1,64 @@
+services:
+  rabbitmq-skeleton:
+    container_name: rabbitmq
+    image: rabbitmq:latest
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+        - rabbitmq_net
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+  gpubsub-skeleton:
+    container_name: googlepubsub
+    image: google/cloud-sdk:latest
+    command: ["gcloud", "beta", "emulators", "pubsub", "start", "--host-port", "0.0.0.0:8085", "--project=your-gcp-proj"]
+    ports:
+      - '8085:8085'
+    networks:
+        - gpubsub_net    
+  redis-skeleton:
+    image: redis:latest
+    container_name: redis
+    command: redis-server
+    ports:
+      - "6379:6379"
+    networks:
+        - redis_net
+    volumes:
+      - ~/.docker-conf/redis/dаta:/root/redis
+  mongodb-skeleton:
+    image : mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    networks:
+        - mongodb_net
+    restart: unless-stopped
+    volumes:
+      - ~/.docker-conf/mongodb/data:/data/db    
+  mariadb-skeleton:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: skeleton-db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ~/.docker-conf/mariadb/dаta:/var/lib/mysql
+      
+networks:
+  rabbitmq_net:
+    driver: bridge
+  gpubsub_net:
+    driver: bridge
+  redis_net:
+    driver: bridge
+  mongodb_net:
+    driver: bridge
+  

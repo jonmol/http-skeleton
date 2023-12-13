@@ -1,0 +1,21 @@
+# -*- restclient -*-
+
+# See https://github.com/pashky/restclient.el for howto
+# ctrl-c ctrl-c  executes the query under the cursor
+
+:base_host = http://localhost:3000
+:base_version = :base_host/v1
+:base_uri = :base_version/myService
+:public_endpoints = :base_uri/public
+:private_endpoints = :base_uri/private
+
+:health_host = http://localhost:3000
+
+# hello private
+GET :private_endpoints/hello?input=foo
+
+# hello public
+GET :public_endpoints/hello?input=foo
+
+# livez
+GET :base_host/livez

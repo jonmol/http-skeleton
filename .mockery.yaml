@@ -1,0 +1,12 @@
+with-expecter: true
+dir: "{{.InterfaceDir}}/mocks"
+packages:
+    github.com/jonmol/http-skeleton/server/service:
+        config:
+        interfaces:
+          Counter:
+    github.com/jonmol/http-skeleton/server/handler:
+        config:
+        interfaces:
+          Service:
+
