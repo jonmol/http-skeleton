@@ -70,16 +70,15 @@ func BuildRouter(han IHandler, conf Config) *mux.Router {
 	}
 
 	version := r.PathPrefix(versionPath).Subrouter()
-	version.Use(conf.Middleware.NonSecuredMiddleware...)
 	service := version.PathPrefix(appPath).Subrouter()
 
 	private := service.PathPrefix(privatePath).Subrouter()
-	addPromeMiddleware(conf.PromethusMiddlleWare, "private", private, eps.private, conf.PromCount, conf.PromTiming, conf.PromSize)
+	addPromeMiddleware(conf.PromethusMiddlleWare, "private", privatePath, private, eps.private, conf.PromCount, conf.PromTiming, conf.PromSize)
 	private.Use(conf.Middleware.SecuredMiddleware...)
 	addRoutes(private, eps.private)
 
 	public := service.PathPrefix(publicPath).Subrouter()
-	addPromeMiddleware(conf.PromethusMiddlleWare, "public", public, eps.public, conf.PromCount, conf.PromTiming, conf.PromSize)
+	addPromeMiddleware(conf.PromethusMiddlleWare, "public", publicPath, public, eps.public, conf.PromCount, conf.PromTiming, conf.PromSize)
 	public.Use(conf.Middleware.NonSecuredMiddleware...)
 	addRoutes(public, eps.public)
 
@@ -94,11 +93,11 @@ func addRoutes(r *mux.Router, h []endpoint) {
 	}
 }
 
-func addPromeMiddleware(on bool, epType string, r *mux.Router, h []endpoint, counter, timings, sizes bool) {
+func addPromeMiddleware(on bool, epType, epPrefix string, r *mux.Router, h []endpoint, counter, timings, sizes bool) {
 	if !on {
 		return
 	}
-	baseP := versionPath + appPath + privatePath
+	baseP := versionPath + appPath + epPrefix
 	paths := make([]string, 0)
 	for _, e := range h {
 		paths = append(paths, baseP+e.path)

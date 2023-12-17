@@ -35,7 +35,7 @@ var (
 )
 
 type BaseConfig struct {
-	LogOutputFormat string `mapstructure:"log-format" validate:"omitempty,oneof=text|json"`
+	LogOutputFormat string `mapstructure:"log-format" validate:"omitempty,oneof=text json"`
 	LogMinLevel     string `mapstructure:"log-lvl" validate:"omitempty,oneof=debug info warn error"`
 	LogTarget       string `mapstructure:"log-handle" validate:"omitempty,oneof=stdio stderr"`
 }
@@ -59,7 +59,7 @@ func init() {
 	validate = validator.New()
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", cfgFile, "config file")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config.yml", cfgFile, "config file")
 	rootCmd.PersistentFlags().StringVar(&base.LogMinLevel, "log-lvl", "info", "Minimum log level to display: debug|info|warn|error")
 	rootCmd.PersistentFlags().StringVar(&base.LogOutputFormat, "log-format", "text", "Output logs in text or json")
 	rootCmd.PersistentFlags().StringVar(&base.LogTarget, "log-target", "stdout", "Output logs to stdout or stderr")

@@ -206,7 +206,7 @@ func setupRouter(db *model.DB) *mux.Router {
 
 // addSecMiddlewares adds any middlewares to be used on secure endpoints
 func addSecMiddlewares() []mux.MiddlewareFunc {
-	mid := make([]mux.MiddlewareFunc, 0)
+	mid := make([]mux.MiddlewareFunc, 0, 2)
 	mid = append(mid, middleware.NewContextHandler(viper.GetString(FieldMiddlewareTraceIDHeader), viper.GetBool(FieldMiddlewareURLPath)))
 
 	if viper.GetBool(FieldMiddlewareCors) &&
@@ -242,13 +242,11 @@ func addSecMiddlewares() []mux.MiddlewareFunc {
 	} else {
 		slog.Warn("CORS check disabled, do you really want it like that?")
 	}
-
 	return mid
 }
 
 func addPublicMiddlewares() []mux.MiddlewareFunc {
-	mid := make([]mux.MiddlewareFunc, 0)
-	mid = append(mid, middleware.NewContextHandler(viper.GetString(FieldMiddlewareTraceIDHeader), viper.GetBool(FieldMiddlewareURLPath)))
+	mid := []mux.MiddlewareFunc{middleware.NewContextHandler(viper.GetString(FieldMiddlewareTraceIDHeader), viper.GetBool(FieldMiddlewareURLPath))}
 
 	return mid
 }

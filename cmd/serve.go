@@ -45,6 +45,8 @@ func init() {
 
 	// handle hyphens from flags in env variables, and while at it make maps/arrays accessible by using __
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_", ".", "__"))
+	// add a prefix to all the env variables
+	// viper.SetEnvPrefix("MY_APP")
 	viper.AutomaticEnv()
 }
 

@@ -86,6 +86,16 @@ The service starts a second http listener on port 9090, which can be accessed wi
 
 While backend APIs tend to be fairly similiar, CRUD operations based on requests, there tends to be special cases in many of them. This layout doesn't promise to solve all your problems. 
 
+## Documentation
+The documentation is pretty sparse so far. It's really hard to blindly trying to understand what needs explanation, plus it's slightly less motivating compared to writing the code. I've added README files in the following places:
+ - [cmd](cmd/README.md)
+ - [model](model/README.md)
+ - [cmd/serve](cmd/serve/README.md)
+ - [server/middleware](server/middleware/README.md)
+ - [server/router](server/router/README.md)
+ 
+If you find something confusing or plain wrong, please create an issue and I'll try to improve and fix.
+
 ## What's lacking / Project status
 
 Chances are that if you're a seasoned developer, or working at a company with some history you already have your own boilerplate code. With that in mind, this repository is most likely mainly useful for myself and people exploring Go. For an explorer the repository can most likely be a bit overwhelming and more documentation is clearly needed. However, I'm a bit reluctant in spend the time on that before knowing if this is useful to anyone else. If it's only for myself it's not needed, so I'll leave it largely like this and if it gets any traction I will add documentation and answer questions.
@@ -96,9 +106,9 @@ This is all licensensed under GPLV3. The reason for picking this licensense, is 
 
 ## Directory layout
 ```
-├── cmd                     - Command files, cobra style
+├── cmd                     - Command files, cobra style 
 │   ├── config              - Example if you want to be able to validate your config
-│   └── serve               - The heavy lifting done when running 
+│   └── serve               - The heavy lifting done when running
 ├── model                   - Base DB struct, example of making it easier to switch between different databases 
 │   ├── badger              - Example Badger DB struct
 │   │   └── sillycounter
@@ -111,7 +121,7 @@ This is all licensensed under GPLV3. The reason for picking this licensense, is 
 │   ├── handler             - HTTP handlers
 │   │   └── mocks           - Mocks for testing
 │   ├── middleware          - Example middlewares 
-│   ├── router              - HTTP router configuration
+│   ├── router              - HTTP router configuration 
 │   ├── service             - Services, called by the handlers to do the business logic
 │   │   └── mocks           - Mocks for testing
 │   └── util                - Common things related to the HTTP server
